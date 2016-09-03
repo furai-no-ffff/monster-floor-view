@@ -1,0 +1,51 @@
+table {
+  border-collapse : collapse;
+}
+
+thead {
+  background-color : #BBEEBB;
+}
+
+thead td {
+  padding : 0;
+  text-align : center;
+  /*cursor : pointer;*/
+}
+
+.sort-header {
+  cursor : pointer;
+}
+
+.sort-header:hover {
+  background-color : #CCFFCC;
+}
+
+.sort-down {
+  color : blue;
+}
+
+.sort-up {
+  color : red;
+}
+
+td {
+  border : 1px black solid;
+  text-align : right;
+  padding : 0 5px;
+  width : 3.5em;
+  height: 36px;
+}
+
+td:nth-child(1){
+  text-align : center;
+  width : 10em;
+}
+
+td:nth-child(2){
+  text-align : center;
+  width : 40px;
+}
+
+#readme-link {
+  margin-top : 2em;
+}

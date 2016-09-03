@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<script type="text/javascript" src="siren-monster-floor-view.js"></script>
+<script type="text/javascript" src="monster-status.js"></script>
+<script type="text/javascript" src="floors.js"></script>
+<script type="text/javascript" src="tablesort.js"></script>
+<script type="text/javascript" src="tablesort.number.js"></script>
+<link rel="stylesheet" href="siren-monster-floor-view.css" type="text/css" media="screen" charset="utf-8">
+<title>Siren Monster Floor View</title>
+</head>
+<body>
+<div id="toolbox">
+  <select id="dungeon-select">
+    <option value="tm">こばみ谷</option>
+    <option value="shoku">食神のほこら</option>
+    <option value="kake">掛軸裏の洞窟</option>
+    <option value="fei">フェイの最終問題</option>
+  </select>
+  <select id="floor-select">
+  </select>
+</div>
+<div id="main">
+  <table id="main-table"></table>
+</div>
+<script type="text/javascript">
+  mv = new MonsterView(
+      document.getElementById('main-table'),
+      document.getElementById('dungeon-select'),
+      document.getElementById('floor-select'));
+</script>
+<p id="readme-link">
+  <a href="readme.txt">説明</a>
+</p>
+</body>
+</html>
