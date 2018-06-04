@@ -20,16 +20,12 @@
   </select>
   <select id="floor-select">
   </select>
+  <span class="toolbox-label">シレン攻撃力</span><input type=number min=1 max=255 placeholder="N/A" id="siren-attack">
+  <span class="toolbox-label">シレン防御力</span><input type=number min=0 max=255 placeholder="N/A" id="siren-defence">
 </div>
 <div id="main">
   <table id="main-table"></table>
 </div>
-<script type="text/javascript">
-  mv = new MonsterView(
-      document.getElementById('main-table'),
-      document.getElementById('dungeon-select'),
-      document.getElementById('floor-select'));
-</script>
 <p id="readme-link">
   <a href="readme.txt">説明</a>
 </p>

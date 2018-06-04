@@ -23,4 +23,15 @@
 
     return compareNumber(b, a);
   });
+
+  Tablesort.extend("range", function(item){
+    return item.match(/^\s*\d+\s*-\s*\d+/);
+  }, function(a,b){
+    var md_a = a.match(/^\s*(\d+)\s*-\s*(\d+)/);
+    var md_b = b.match(/^\s*(\d+)\s*-\s*(\d+)/);
+
+    var d_min = parseInt(md_b[1]) - parseInt(md_a[1]);
+    var d_max = parseInt(md_b[2]) - parseInt(md_a[2]);
+    return d_min + d_max;
+  });
 }());
