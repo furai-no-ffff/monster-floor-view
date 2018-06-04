@@ -20,8 +20,17 @@
   </select>
   <select id="floor-select">
   </select>
-  <span class="toolbox-label">シレン攻撃力</span><input type=number min=1 max=255 placeholder="N/A" id="siren-attack">
+  <span class="toolbox-label">
+    <button type=buttoun id="siren-attack-button">シレン攻撃力</button>
+  </span><input type=number min=1 max=255 placeholder="N/A" id="siren-attack">
   <span class="toolbox-label">シレン防御力</span><input type=number min=0 max=255 placeholder="N/A" id="siren-defence">
+  <div id="siren-status-container">
+    <div id="siren-status-container-inline">
+      <span class="toolbox-label">Lv</span><input type=number min=1 max=70 value=1 id="siren-level">
+      <span class="toolbox-label">力</span><input type=number min=1 max=99 value=8 id="siren-strength">
+      <span class="toolbox-label">武器</span><input type=number min=0 max=255 value=0 id="siren-weapon">
+    </div>
+  </div>
 </div>
 <div id="main">
   <table id="main-table"></table>

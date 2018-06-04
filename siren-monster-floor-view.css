@@ -3,8 +3,27 @@
   margin-left : 0.5em;
 }
 
-#siren-attack, #siren-defence {
+input[type=number] {
   width : 4em;
+  text-align : center;
+}
+
+#siren-attack-button {
+  background : linear-gradient(0.5turn, white, white 60%, #DDF 62%, #DDF);
+  border : 0;
+  cursor : pointer;
+}
+
+#siren-status-container {
+  display : none;
+}
+
+#siren-status-container-inline {
+  display : inline-block;
+  border : 0px blue solid;
+  background-color : #DDF;
+  margin : 0.5em;
+  padding : 0.5em;
 }
 
 table {

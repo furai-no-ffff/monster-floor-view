@@ -8,6 +8,7 @@ function MonsterView(){
   this.floorElt = document.getElementById("floor-select");
   this.sirenAttackElement = document.getElementById("siren-attack");
   this.sirenDefenceElement = document.getElementById("siren-defence");
+  this.sirenStatusElement = document.getElementById("siren-status-container");
 
   this.initTable();
   this.initDungeonSelect();
@@ -15,6 +16,8 @@ function MonsterView(){
 
   this.initSirenAttack();
   this.initSirenDefence();
+
+  this.initSirenStatus();
 
   this.setFloors(this.dungeonElt.value);
 }
@@ -27,6 +30,9 @@ MonsterView.prototype = {
 
     var siren_def = this.getSirenDefence();
     var siren_atk = this.getSirenAttack();
+
+    this.damageToSirenHeaderElt.style.display = siren_def == null ? 'none' : 'table-cell';
+    this.damageFromSirenHeaderElt.style.display = siren_atk == null ? 'none' : 'table-cell';
 
     var _this = this;
     Array.prototype.forEach.call(this.tableElt.tBodies, function(tbody){
@@ -83,9 +89,8 @@ MonsterView.prototype = {
     ['出現率', 'HP', '攻撃力', '防御力', '経験値', 'ドロップ'].forEach(function(text){
        makeHeaderCell(text, null, "number");
     });
-    ['シレンへのダメージ', 'シレンからのダメージ'].forEach(function(text){
-       makeHeaderCell(text, "damage-range", "range");
-    });
+    this.damageToSirenHeaderElt = makeHeaderCell('シレンへのダメージ', 'damage-range', 'range');
+    this.damageFromSirenHeaderElt = makeHeaderCell('シレンからのダメージ', 'damage-range', 'range');
 
     this.sort = new Tablesort(this.tableElt, {
       descending: true
@@ -114,14 +119,34 @@ MonsterView.prototype = {
   initSirenAttack: function(){
     var _this = this;
     this.sirenAttackElement.addEventListener("input", function(){
-      _this.showSelectedTable()
+      _this.showSelectedTable();
+    });
+    document.getElementById("siren-attack-button").addEventListener("click", function(){
+      if (getComputedStyle(_this.sirenStatusElement).display == 'none'){
+        _this.sirenStatusElement.style.display = 'block';
+      }else{
+        _this.sirenStatusElement.style.display = 'none';
+      }
     });
   },
 
   initSirenDefence: function(){
     var _this = this;
     this.sirenDefenceElement.addEventListener("input", function(){
-      _this.showSelectedTable()
+      _this.showSelectedTable();
+    });
+  },
+
+  initSirenStatus: function(){
+    var _this = this;
+    this.sirenStatusElement.addEventListener("input", function(){
+      var lv = _this.getInputNumberForId("siren-level");
+      var str = _this.getInputNumberForId("siren-strength");
+      var weapon = _this.getInputNumberForId("siren-weapon");
+      if (lv != null && str != null && weapon != null){
+        _this.sirenAttackElement.value = _this.computeSirenAttack(lv, str, weapon);
+        _this.showSelectedTable();
+      }
     });
   },
 
@@ -156,6 +181,10 @@ MonsterView.prototype = {
     return this.getInputNumber(this.sirenDefenceElement);
   },
 
+  getInputNumberForId: function(id){
+    return this.getInputNumber(document.getElementById(id));
+  },
+
   getInputNumber: function(elt){
     var n = elt.valueAsNumber;
     if (!isNaN(n) &&
@@ -176,6 +205,21 @@ MonsterView.prototype = {
       }
       return Math.min(dmg >> 7, 255);
     }
+  },
+
+  SirenAttackBase: [0,
+    5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 26, 28, 31, 34, 37, 41, 44, 47, 50, 53, 56, 58,
+    60, 63, 66, 70, 74, 78, 80, 82, 84, 86, 88, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99,
+    100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 115, 116, 117,
+    118, 119, 120, 121, 122, 123, 124, 125, 126, 127
+  ],
+
+  computeSirenAttack: function(lv, str, weapon){
+    var pow = Math.min(str + weapon, 0xFF);
+    var p1 = Math.abs(pow - 8);
+    var p2 = (p1 * this.SirenAttackBase[lv]) >> 3;
+    var p3 = Math.min((p2 >> 1) + (p2 & 1), 0xFF);
+    return Math.min(this.SirenAttackBase[lv] + (pow < 8 ? -p3 : p3), 0xFF);
   },
 
   rangeToText: function(range){
