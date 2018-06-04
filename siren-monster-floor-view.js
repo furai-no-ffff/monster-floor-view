@@ -112,7 +112,7 @@ MonsterView.prototype = {
   initDungeonSelect: function(){
     var _this = this;
     this.dungeonElt.addEventListener('change', function(e){
-      _this.setFloors(_this.dungeonElt.value);
+      _this.setFloors(_this.dungeonElt.value, parseInt(_this.floorElt.value));
     });
   },
 
@@ -150,7 +150,7 @@ MonsterView.prototype = {
     });
   },
 
-  setFloors: function(dungeon_key){
+  setFloors: function(dungeon_key, floor_num){
     this.floorElt.innerHTML = '';
 
     var floors = Floors[dungeon_key];
@@ -161,9 +161,24 @@ MonsterView.prototype = {
       opt.value = floor_key;
       opt.text = floor_key;
       _this.floorElt.add(opt);
+      if (floor_num != null && isFloorInRange(floor_key)){
+        _this.floorElt.value = floor_key;
+      }
     });
 
     this.showSelectedTable();
+
+    function isFloorInRange(floor){
+      if (floor_num == null){
+        return false;
+      }
+      var range_or_num = floor.split('〜');
+      if (range_or_num[1]){
+        return range_or_num[0] <= floor_num && floor_num <= range_or_num[1];
+      }else{
+        return range_or_num[0] == floor_num;
+      }
+    }
   },
 
   initFloorSelect: function(){
